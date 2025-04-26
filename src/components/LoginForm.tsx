@@ -4,8 +4,8 @@ import { useForm } from "antd/es/form/Form";
 import Modal from "antd/es/modal/Modal";
 import { useState } from "react";
 import RegisterForm from "../components/RegisterForm";
+import { useActions } from "../hooks/useActions";
 import { useTypedSelector } from "../hooks/useTypedSelector";
-import UserService from "../services/UserService"; // Assuming UserService is imported from services
 import { rules } from "../utils/rules";
 
 const LoginFrom = () => {
@@ -13,6 +13,8 @@ const LoginFrom = () => {
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [modalRegisterVisible, setModalRegisterVisible] = useState(false);
+
+  const { login } = useActions();
 
   const [form] = useForm();
 
@@ -24,14 +26,8 @@ const LoginFrom = () => {
     setModalRegisterVisible(false);
   };
 
-  const onFinish = async () => {
-    try {
-      await UserService.loginUser(userName, userPassword);
-      console.log("Login successful!");
-      clearLoginFormFields();
-    } catch (error) {
-      console.error("Login failed", error);
-    }
+  const onFinish = () => {
+    login(userName, userPassword, clearLoginFormFields);
   };
 
   return (

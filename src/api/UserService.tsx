@@ -3,26 +3,21 @@ import { IUser } from "../models/IUser";
 
 export default class UserService {
   static async getUsers(): Promise<IUser[]> {
-    const { data: users } = await axios.get<IUser[]>(
-      "http://localhost:5000/users"
+    const { data: fileUsers } = await axios.get<IUser[]>(
+      "/React-Calendar-Project/users.json"
     );
-    return users;
+    const localStorageUsers = localStorage.getItem("localUsers") || "[]";
+    const parsedLsUsers = JSON.parse(localStorageUsers) as IUser[];
+    return [...fileUsers, ...parsedLsUsers];
   }
-
-  static async createUser(username: string, password: string): Promise<void> {
-    await axios.post("http://localhost:5000/register", { username, password });
-  }
-
-  static async loginUser(username: string, password: string): Promise<void> {
-    const response = await axios.post("http://localhost:5000/login", {
-      username,
-      password,
-    });
-    if (response.status === 200) {
-      console.log("Login successful!");
-    } else {
-      throw new Error("Invalid credentials");
-    }
+  static createUser(username: string, password: string): void {
+    const localStorageUsers = localStorage.getItem("localUsers") || "[]";
+    const parsedLsUsers = JSON.parse(localStorageUsers) as IUser[];
+    const newUser = { username, password };
+    localStorage.setItem(
+      "localUsers",
+      JSON.stringify([...parsedLsUsers, newUser])
+    );
   }
 }
 
