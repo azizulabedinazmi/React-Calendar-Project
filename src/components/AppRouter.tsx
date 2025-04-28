@@ -1,4 +1,3 @@
-import React from "react";
 import { Navigate, Route, Routes } from "react-router";
 import { useTypedSelector } from "../hooks/useTypedSelector";
 import { privateRoutes, publicRoutes } from "../router";

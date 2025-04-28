@@ -1,9 +1,9 @@
-import { Menu, MenuProps, Row } from "antd";
+import { Menu, MenuProps } from "antd";
 import { Header } from "antd/es/layout/layout";
 import { useNavigate } from "react-router-dom";
-import { RouteNames } from "../router";
-import { useTypedSelector } from "../hooks/useTypedSelector";
 import { useActions } from "../hooks/useActions";
+import { useTypedSelector } from "../hooks/useTypedSelector";
+import { RouteNames } from "../router";
 
 const NavBar = () => {
   const { logout } = useActions();
